@@ -17,6 +17,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class MainApplication extends Application implements ReactApplication {
+  private static MainApplication instance;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -66,6 +67,22 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    instance = this;
     SoLoader.init(this, /* native exopackage */ false);
+  }
+
+  /**
+   *包名
+   */
+  public String getAppPackageName() {
+    return this.getPackageName();
+  }
+
+
+  /**
+   * 获取Application实例
+   */
+  public static MainApplication getInstance() {
+    return instance;
   }
 }
