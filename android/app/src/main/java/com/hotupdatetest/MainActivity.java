@@ -81,6 +81,13 @@ public class MainActivity extends ReactActivity {
         Intent intent = new Intent(MainActivity.this, MyActivity.class);
         startActivity(intent);
 
+        // 休眠
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // 2.下载
         Log.d(TAG, "开始下载新版本");
         // 默认有新版本
