@@ -10,6 +10,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -31,6 +34,7 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         registeReceiver();
         /**
@@ -73,6 +77,9 @@ public class MainActivity extends ReactActivity {
     }
 
     public void downloadBundle() {
+        // 先进入另外一个 activity
+        Intent intent = new Intent(MainActivity.this, MyActivity.class);
+        startActivity(intent);
 
         // 2.下载
         Log.d(TAG, "开始下载新版本");
@@ -147,16 +154,33 @@ public class MainActivity extends ReactActivity {
                 Log.d(TAG, "File download ok!!!!!!!");
                 Toast.makeText(MainActivity.this, "下载成功",  Toast.LENGTH_LONG).show();
 
-                showCompleteModal();
+                // showCompleteModal();
             }
 
         }
     }
 
     public void showCompleteModal() {
+        /*
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("http://www.baidu.com"));
         startActivity(intent);
+        */
+
+
+        Intent intent = new Intent(MainActivity.this, MyActivity.class);
+        startActivity(intent);
+
+        /*
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        UpgradeProcessFragment fragment = new UpgradeProcessFragment();
+
+        transaction.add(R.id.upgrade_process_fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        */
     }
 
     public void updateBundle() {
