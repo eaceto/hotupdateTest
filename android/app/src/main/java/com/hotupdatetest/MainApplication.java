@@ -1,6 +1,7 @@
 package com.hotupdatetest;
 
 import android.app.Application;
+import android.os.Environment;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
@@ -17,6 +18,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class MainApplication extends Application implements ReactApplication {
+  private static final String TAG = "saul";
+
   private static MainApplication instance;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -28,15 +31,17 @@ public class MainApplication extends Application implements ReactApplication {
     @Nullable
     @Override
     protected String getJSBundleFile() {
-      Log.d("getJSBundleFile", "getJSBundleFile");
-
-      File file = new File(FileConstants.JS_BUNDLE_LOCAL_FILE);
+      File file = new File(FileConstants.JS_PATCH_LOCAL_PATH);
       if(file != null && file.exists()) {
-        return FileConstants.JS_BUNDLE_LOCAL_FILE;   // 加载我们远程下载的 bundle 文件
+        Log.d(TAG, "存在资源包，正在加载资源包启动");
+        Log.d(TAG, "正在 MainApplication 加载新的资源");
+        return FileConstants.JS_PATCH_LOCAL_PATH;
       } else {
+        Log.d(TAG, "正在以默认的方式加载包");
         return super.getJSBundleFile();
       }
     }
+
 
 
     @Override
