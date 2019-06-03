@@ -181,6 +181,7 @@ public class MyActivity extends FragmentActivity {
      */
     public void reloadReactApp() {
 
+        /*
         Activity currentActivity = ((MainApplication)getApplicationContext()).getCurrentActivity();
         currentActivity.runOnUiThread(new Runnable() {
             @Override
@@ -188,6 +189,7 @@ public class MyActivity extends FragmentActivity {
                 currentActivity.recreate();
             }
         });
+        */
 
         /*
         mReactRootView = new ReactRootView(this);
