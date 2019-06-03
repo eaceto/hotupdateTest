@@ -1,11 +1,6 @@
 package com.hotupdatetest.customModule;
 
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,8 +8,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.hotupdatetest.MyActivity;
-import com.hotupdatetest.R;
-import com.hotupdatetest.UpgradeProcessFragment;
 import com.hotupdatetest.constants.FileConstants;
 
 import java.io.File;
@@ -52,6 +45,7 @@ public class UpgradeModule extends ReactContextBaseJavaModule {
     public void deleteLastUpdate() {
         deleteLastFile();
     }
+
 
     /**
      * 清空旧的文件夹

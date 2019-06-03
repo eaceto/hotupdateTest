@@ -1,6 +1,5 @@
 package com.hotupdatetest;
 
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,23 +12,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.react.ReactInstanceManager;
-import com.facebook.react.ReactInstanceManagerBuilder;
 import com.facebook.react.ReactRootView;
-import com.facebook.react.bridge.JSBundleLoader;
-import com.facebook.react.bridge.JavaScriptExecutor;
 
-import com.facebook.soloader.SoLoader;
 import com.hotupdatetest.constants.FileConstants;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class MyActivity extends FragmentActivity {
 
@@ -43,22 +33,18 @@ public class MyActivity extends FragmentActivity {
     private ReactInstanceManager mReactInstanceManager;
 
 
-    protected MainApplication mMyApp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "我是 myActivity");
         setContentView(R.layout.activity_my);
 
         initUpgradeProcessFragment();
 
         registeReceiver();
         downloadBundle();
-
-
-        mMyApp = (MainApplication) this.getApplicationContext();
-
 
 
     }
@@ -77,21 +63,8 @@ public class MyActivity extends FragmentActivity {
 
 
     public void downloadBundle() {
-
-        /*
-        // 休眠
-        try {
-            Thread.sleep(9000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if(true) return;
-        */
-
-
-        // 2.下载
         Log.d(TAG, "开始下载新版本");
+
         // 默认有新版本
         Toast.makeText(getApplicationContext(), "开始下载新版本",  Toast.LENGTH_LONG).show();
 
@@ -147,7 +120,6 @@ public class MyActivity extends FragmentActivity {
 
 
 
-
     /**
      * 注册广播
      */
@@ -163,7 +135,6 @@ public class MyActivity extends FragmentActivity {
             long completeId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
             Log.d(TAG, "completeId");
-            // Log.d(TAG, Integer.toString(completeId));
             if(completeId == mDownLoadId) {
                 Log.d(TAG, "File download ok!!!!!!!");
                 Toast.makeText(getApplicationContext(), "下载成功",  Toast.LENGTH_LONG).show();
@@ -180,6 +151,9 @@ public class MyActivity extends FragmentActivity {
      *
      */
     public void reloadReactApp() {
+        MainApplication.lanuchSelf();
+
+
 
         /*
         Intent i = getBaseContext().getPackageManager().
@@ -255,29 +229,20 @@ public class MyActivity extends FragmentActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        mMyApp.setCurrentActivity(this);
     }
 
     @Override
     protected void onPause() {
-        clearReferences();
         super.onPause();
         overridePendingTransition(0, 0);
     }
 
-    private void clearReferences(){
-        Activity currActivity = mMyApp.getCurrentActivity();
-        if (this.equals(currActivity))
-            mMyApp.setCurrentActivity(null);
-    }
 
     @Override
     protected void onDestroy() {
-        clearReferences();
         super.onDestroy();
         unregisterReceiver(localReceiver);
     }
