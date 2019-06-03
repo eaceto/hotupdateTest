@@ -10,15 +10,11 @@ public class MainActivity extends ReactActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        // registeReceiver();
-        // lanuchProcesDialog();
-        // hotUpgrade();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // unregisterReceiver(localReceiver);
     }
 
 

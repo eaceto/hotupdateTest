@@ -16,9 +16,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactInstanceManagerBuilder;
+import com.facebook.react.bridge.JSBundleLoader;
+import com.facebook.react.bridge.JavaScriptExecutor;
+
 import com.hotupdatetest.constants.FileConstants;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MyActivity extends FragmentActivity {
 
@@ -26,6 +34,9 @@ public class MyActivity extends FragmentActivity {
 
     private long mDownLoadId;
     private CompleteReceiver localReceiver;
+
+    private ReactInstanceManager mReactInstanceManager;
+
 
 
 
@@ -38,6 +49,8 @@ public class MyActivity extends FragmentActivity {
 
         registeReceiver();
         downloadBundle();
+
+
 
     }
 
@@ -129,6 +142,7 @@ public class MyActivity extends FragmentActivity {
 
 
 
+
     /**
      * 注册广播
      */
@@ -148,9 +162,53 @@ public class MyActivity extends FragmentActivity {
             if(completeId == mDownLoadId) {
                 Log.d(TAG, "File download ok!!!!!!!");
                 Toast.makeText(getApplicationContext(), "下载成功",  Toast.LENGTH_LONG).show();
+
+                reloadReactApp();
             }
 
         }
+    }
+
+
+    /**
+     * 重启 RN Context
+     *
+     */
+    public void reloadReactApp() {
+        ReactInstanceManagerBuilder builder = ReactInstanceManager.builder();
+        mReactInstanceManager =  builder.build();
+        mReactInstanceManager.recreateReactContextInBackground();
+
+
+        /*
+        try {
+
+            Class<?> RIManagerClazz = mReactInstanceManager.getClass();
+
+            Field f = RIManagerClazz.getDeclaredField("mJSCConfig");
+            f.setAccessible(true);
+            JSCConfig jscConfig = (JSCConfig)f.get(mReactInstanceManager);
+
+            Method method = RIManagerClazz.getDeclaredMethod("recreateReactContextInBackground",
+                    com.facebook.react.cxxbridge.JavaScriptExecutor.Factory.class,
+                    com.facebook.react.cxxbridge.JSBundleLoader.class);
+            method.setAccessible(true);
+            method.invoke(mReactInstanceManager,
+                    new com.facebook.react.cxxbridge.JSCJavaScriptExecutor.Factory(jscConfig.getConfigMap()),
+                    com.facebook.react.cxxbridge.JSBundleLoader.createFileLoader(getApplicationContext(), FileConstants.JS_PATCH_LOCAL_PATH));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e){
+            e.printStackTrace();
+        }
+        */
+
     }
 
 
