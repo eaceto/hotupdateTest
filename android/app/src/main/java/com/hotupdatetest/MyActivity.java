@@ -182,6 +182,16 @@ public class MyActivity extends FragmentActivity {
     public void reloadReactApp() {
 
         /*
+        Intent i = getBaseContext().getPackageManager().
+                getLaunchIntentForPackage(getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        */
+
+
+
+        /*
         Activity currentActivity = ((MainApplication)getApplicationContext()).getCurrentActivity();
         currentActivity.runOnUiThread(new Runnable() {
             @Override

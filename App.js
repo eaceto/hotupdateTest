@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, NativeModules, TouchableOpacity} from 'react-native';
+import RNRestart from 'react-native-restart';
 
 const UpgradeNative = NativeModules.Upgrade;
 
@@ -42,6 +43,22 @@ export default class App extends Component<Props> {
             color: '#FFF'
           }}>
             点我升级
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            height: 90,
+            backgroundColor: 'red',
+          }}
+          onPress={() => {
+            RNRestart.Restart();
+          }}
+        >
+          <Text style={{
+            fontSize: 30,
+            color: '#FFF'
+          }}>
+            重启app
           </Text>
         </TouchableOpacity>
       </View>
