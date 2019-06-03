@@ -1,7 +1,6 @@
 package com.hotupdatetest;
 
 import android.app.Application;
-import android.os.Environment;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
@@ -9,6 +8,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.hotupdatetest.customModule.UpgradePackage;
 import com.hotupdatetest.constants.FileConstants;
 
 import java.io.File;
@@ -36,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
         Log.d(TAG, "存在资源包，正在加载资源包启动");
         Log.d(TAG, "正在 MainApplication 加载新的资源");
         return FileConstants.JS_PATCH_LOCAL_PATH;
+        // return super.getJSBundleFile();
       } else {
         Log.d(TAG, "正在以默认的方式加载包");
         return super.getJSBundleFile();
@@ -52,7 +53,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+              new UpgradePackage()
       );
     }
 

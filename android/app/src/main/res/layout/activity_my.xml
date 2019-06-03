@@ -5,5 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/my_activity"
+    android:background="@color/transparent"
+    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
     tools:context=".MyActivity">
+
+    <FrameLayout
+        android:id="@+id/upgrade_process_fragment_container"
+        android:layout_width="269dp"
+        android:layout_height="224dp"
+        android:background="@drawable/layout_bg"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="93dp"></FrameLayout>
 </android.support.constraint.ConstraintLayout>
