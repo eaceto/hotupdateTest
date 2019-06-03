@@ -1,5 +1,6 @@
 package com.hotupdatetest;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactInstanceManagerBuilder;
+import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.JSBundleLoader;
 import com.facebook.react.bridge.JavaScriptExecutor;
 
+import com.facebook.soloader.SoLoader;
 import com.hotupdatetest.constants.FileConstants;
 
 import java.io.File;
@@ -35,9 +38,12 @@ public class MyActivity extends FragmentActivity {
     private long mDownLoadId;
     private CompleteReceiver localReceiver;
 
+
+    private ReactRootView mReactRootView;
     private ReactInstanceManager mReactInstanceManager;
 
 
+    protected MainApplication mMyApp;
 
 
     @Override
@@ -49,6 +55,9 @@ public class MyActivity extends FragmentActivity {
 
         registeReceiver();
         downloadBundle();
+
+
+        mMyApp = (MainApplication) this.getApplicationContext();
 
 
 
@@ -66,10 +75,6 @@ public class MyActivity extends FragmentActivity {
     }
 
 
-    public void onPause() {
-        super.onPause();
-        overridePendingTransition(0, 0);
-    }
 
     public void downloadBundle() {
 
@@ -175,9 +180,28 @@ public class MyActivity extends FragmentActivity {
      *
      */
     public void reloadReactApp() {
+
+        Activity currentActivity = ((MainApplication)getApplicationContext()).getCurrentActivity();
+        currentActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                currentActivity.recreate();
+            }
+        });
+
+        /*
+        mReactRootView = new ReactRootView(this);
+        mReactInstanceManager = builder.build();
+        mReactRootView.startReactApplication(mReactInstanceManager, "DoubanMovie", null);
+        */
+
+
+        /*
         ReactInstanceManagerBuilder builder = ReactInstanceManager.builder();
+        builder.setApplication(getApplication());
         mReactInstanceManager =  builder.build();
         mReactInstanceManager.recreateReactContextInBackground();
+        */
 
 
         /*
@@ -220,9 +244,28 @@ public class MyActivity extends FragmentActivity {
 
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMyApp.setCurrentActivity(this);
+    }
+
+    @Override
+    protected void onPause() {
+        clearReferences();
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+
+    private void clearReferences(){
+        Activity currActivity = mMyApp.getCurrentActivity();
+        if (this.equals(currActivity))
+            mMyApp.setCurrentActivity(null);
+    }
 
     @Override
     protected void onDestroy() {
+        clearReferences();
         super.onDestroy();
         unregisterReceiver(localReceiver);
     }

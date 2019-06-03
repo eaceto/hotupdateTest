@@ -1,5 +1,6 @@
 package com.hotupdatetest;
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
@@ -92,4 +93,16 @@ public class MainApplication extends Application implements ReactApplication {
   public static MainApplication getInstance() {
     return instance;
   }
+
+
+  private Activity mCurrentActivity = null;
+  public Activity getCurrentActivity(){
+    return mCurrentActivity;
+  }
+  public void setCurrentActivity(Activity mCurrentActivity){
+    this.mCurrentActivity = mCurrentActivity;
+  }
+
+
+
 }
