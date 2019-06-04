@@ -6,19 +6,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactInstanceManagerBuilder;
+import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactRootView;
 
+import com.facebook.react.bridge.JSBundleLoader;
+import com.facebook.react.bridge.JSCJavaScriptExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutor;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
+import com.facebook.react.bridge.ProxyJavaScriptExecutor;
 import com.hotupdatetest.constants.FileConstants;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 public class MyActivity extends FragmentActivity {
@@ -106,9 +120,12 @@ public class MyActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             // UI 进程
+
+                            TextView textView = findViewById(R.id.process_bar_percent_text);
+                            textView.setText("已完成" + Integer.toString(dl_progress) + "%");
+
                             ProgressBar progressBar = findViewById(R.id.process_bar);
                             progressBar.setProgress(dl_progress);
-
                         }
                     });
                     cursor.close();
@@ -139,7 +156,7 @@ public class MyActivity extends FragmentActivity {
                 Log.d(TAG, "File download ok!!!!!!!");
                 Toast.makeText(getApplicationContext(), "下载成功",  Toast.LENGTH_LONG).show();
 
-                reloadReactApp();
+                // jreloadReactApp();
             }
 
         }
@@ -151,7 +168,9 @@ public class MyActivity extends FragmentActivity {
      *
      */
     public void reloadReactApp() {
-        MainApplication.lanuchSelf();
+
+        // 报错： {com.hotupdatetest/com.facebook.react.ReactActivity}; have you declared this activity in your AndroidManifest.xml?
+        // MainApplication.lanuchSelf();
 
 
 
@@ -175,37 +194,42 @@ public class MyActivity extends FragmentActivity {
         });
         */
 
-        /*
-        mReactRootView = new ReactRootView(this);
-        mReactInstanceManager = builder.build();
-        mReactRootView.startReactApplication(mReactInstanceManager, "DoubanMovie", null);
-        */
+        ReactNativeHost reactNativeHost = MainApplication.getInstance().getReactNativeHost();
+        reactNativeHost.clear();    // 清除 Host!!!
 
-
-        /*
-        ReactInstanceManagerBuilder builder = ReactInstanceManager.builder();
-        builder.setApplication(getApplication());
-        mReactInstanceManager =  builder.build();
+        ReactInstanceManager mReactInstanceManager = reactNativeHost.getReactInstanceManager();
+        mReactInstanceManager.createReactContextInBackground();  // 重新创建 Context
         mReactInstanceManager.recreateReactContextInBackground();
-        */
 
 
-        /*
+        Intent intent = getBaseContext().getPackageManager().
+                getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
+
+            /*
         try {
-
             Class<?> RIManagerClazz = mReactInstanceManager.getClass();
-
-            Field f = RIManagerClazz.getDeclaredField("mJSCConfig");
-            f.setAccessible(true);
-            JSCConfig jscConfig = (JSCConfig)f.get(mReactInstanceManager);
-
             Method method = RIManagerClazz.getDeclaredMethod("recreateReactContextInBackground",
-                    com.facebook.react.cxxbridge.JavaScriptExecutor.Factory.class,
-                    com.facebook.react.cxxbridge.JSBundleLoader.class);
+                    JavaScriptExecutor.class, JSBundleLoader.class);
             method.setAccessible(true);
             method.invoke(mReactInstanceManager,
-                    new com.facebook.react.cxxbridge.JSCJavaScriptExecutor.Factory(jscConfig.getConfigMap()),
-                    com.facebook.react.cxxbridge.JSBundleLoader.createFileLoader(getApplicationContext(), FileConstants.JS_PATCH_LOCAL_PATH));
+                    new JSCJavaScriptExecutor(),
+                    JSBundleLoader.createFileLoader(FileConstants.JS_PATCH_LOCAL_PATH));
+
+
+            Class<?> RIManagerClazz = mReactInstanceManager.getClass();
+            Method method = RIManagerClazz.getDeclaredMethod("recreateReactContextInBackground",
+                    JavaScriptExecutorFactory.class, JSBundleLoader.class);
+            method.setAccessible(true);
+            method.invoke(mReactInstanceManager,
+                    JavaScriptExecutorFactory.class,
+                    JSBundleLoader.createFileLoader(FileConstants.JS_PATCH_LOCAL_PATH));
+
+
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -214,11 +238,8 @@ public class MyActivity extends FragmentActivity {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-        } catch (NoSuchFieldException e){
-            e.printStackTrace();
         }
-        */
-
+                    */
     }
 
 

@@ -7,18 +7,69 @@
     >
 
     <TextView
-        android:layout_marginTop="50dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="正在更新请等待"
-        android:textSize="30dp" />
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:background="@drawable/modal_corner"
+        android:text="正在下载最新版本 V3.1"
+        android:textColor="#FFF"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/process_bar_percent_text"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:lineHeight="100dp"
+        android:gravity="center"
+        android:text="已完成"
+        android:textColor="#666"
+        android:textSize="16dp" />
 
     <ProgressBar
         android:id="@+id/process_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="6dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:progressTint="@color/theme"
         />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/layout_bg"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        >
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/btn_left_corner"
+            android:shadowRadius="@null"
+            android:drawableBottom="@null"
+            android:height="60dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#999"
+            android:text="取消下载" />
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/btn_right_corner"
+            android:shadowRadius="@null"
+            android:drawableBottom="@null"
+            android:height="60dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="@color/theme"
+            android:text="后台下载"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>

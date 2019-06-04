@@ -51,7 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
       File file = new File(FileConstants.JS_PATCH_LOCAL_PATH);
       if(file != null && file.exists()) {
         Log.d(TAG, "存在资源包，正在加载资源包启动");
-        Log.d(TAG, "正在 MainApplication 加载新的资源");
+        Log.d(TAG, "正在 加载最新的版本!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return FileConstants.JS_PATCH_LOCAL_PATH;
       } else {
         Log.d(TAG, "正在以默认的方式加载包");
