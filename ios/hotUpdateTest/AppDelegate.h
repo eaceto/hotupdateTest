@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong) UIWindow *window;
 
+-(void)deleteLocalBundle:(NSString*)path;
+-(void)resetApp;
+
 @end
